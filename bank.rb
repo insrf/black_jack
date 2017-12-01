@@ -1,7 +1,7 @@
 class Bank
-  attr_accessor :cashe
+  attr_reader :cashe
   
-  def initialize(cache = 100)
+  def initialize(cashe = 100)
     @cashe = cashe
   end
 
@@ -9,4 +9,7 @@ class Bank
     @cashe -= 10
   end
 
+  def win_bet
+  	@cashe += 20
+  end
 end
