@@ -8,7 +8,7 @@ class Human
   end
 
   def begin_card
-    @hand =[]
+    @hand = []
     @hand << @@deck.get_card << @@deck.get_card
   end
 
@@ -33,6 +33,6 @@ class Human
   end
 
   def score
-    @s.hand_score(self.hand)
+    @s.hand_score(hand)
   end
 end
