@@ -79,7 +79,7 @@ class Interface
 
   def winner
     puts "Yours Cards: #{@gamer.hand}  ||||| Diller cards #{@diller.hand}"
-    view_scores
+    puts "Yours Scores: #{@gamer.score} ||||| Diller scores #{@diller.score}"
     if @gamer.score > @diller.score && @gamer.score <= 21
       @gamer.win_bank
       puts "You win. Congratulations\n________________________"
@@ -112,7 +112,7 @@ class Interface
   end
 
   def view_scores
-    puts "Yours Scores: #{@gamer.score} ||||| Diller scores #{@diller.score}"
+    puts "Yours Scores: #{@gamer.score} ||||| Diller scores ***"
   end
 
   def view_bank
