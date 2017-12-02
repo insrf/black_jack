@@ -1,7 +1,7 @@
 class Human
   attr_reader :hand, :deck
 
-  def initialize(_name, deck)
+  def initialize(name, deck)
     @deck = deck
     @bank = Bank.new
     @score = Score.new
