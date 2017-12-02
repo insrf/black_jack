@@ -1,19 +1,19 @@
 class Human
-  attr_reader :hand
+  attr_reader :hand, :deck
 
-  def initialize(name)
-    @@deck = Deck.new
+  def initialize(_name, deck)
+    @deck = deck
     @bank = Bank.new
-    @s = Score.new
+    @score = Score.new
   end
 
   def begin_card
     @hand = []
-    @hand << @@deck.get_card << @@deck.get_card
+    @hand << @deck.get_card << @deck.get_card
   end
 
   def give_card
-    @hand << @@deck.get_card
+    @hand << @deck.get_card
   end
 
   def get_bet
@@ -33,6 +33,6 @@ class Human
   end
 
   def score
-    @s.hand_score(hand)
+    @score.hand_score(hand)
   end
 end

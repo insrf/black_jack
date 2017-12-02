@@ -4,7 +4,7 @@ class Score
   def card_score(card) # подсчет очков одной карты
     score_one_card = 0
     case card[0]
-    when 'T'
+    when 'A'
       score_one_card = 11
     when 'J', 'Q', 'K'
       score_one_card = 10
@@ -22,7 +22,7 @@ class Score
       sum += card_score(item)
     end
     card_arr.each do |item|
-      sum -= 10 if (sum > 21) && item[0].include?('T')
+      sum -= 10 if (sum > 21) && item[0].include?('A')
     end
     sum
   end

@@ -4,16 +4,16 @@ require_relative './diller'
 require_relative './bank'
 require_relative './deck'
 require_relative './score'
+require_relative './game'
 
 class Interface
   def initialize
-    @score = Score.new
+    @game = Game.new
   end
 
   def submit
     puts "Good afternoon.\nEnter your name"
     @name_gamer = gets.chomp
-    @bank	= Bank.new
     puts "Welcome #{@name_gamer}"
     begin_game
   end
@@ -35,13 +35,7 @@ class Interface
   end
 
   def begin_game
-    @gamer = Gamer.new(@name_gamer)
-    @diller = Diller.new
-    @gamer.begin_card
-    @diller.begin_card
-    @gamer.get_bet
-    @diller.get_bet
-
+    @game.begin_game(@name_gamer)
     view_cards
     view_scores
     view_bank
@@ -49,49 +43,38 @@ class Interface
   end
 
   def next_card
-    if @gamer.hand.size < 3
-      @gamer.give_card
-    else
-      puts 'You have 3 cards'
-    end
+    @game.next_card
     view_cards
     view_scores
     skip_turn
+    open_card?
   end
 
   def skip_turn
     puts 'diller turn...'
     sleep(3) # добавил задержку для того, чтобы "очеловечить" диллера
-    if @diller.score < 17 && @diller.hand.size < 3
-      @diller.give_card
-    else
-      puts 'diller skip'
-      sleep(2)
-    end
+    @game.skip_turn
     view_cards
     view_scores
     open_card?
   end
 
   def open_card?
-    winner if @diller.hand.size == 3 && @gamer.hand.size == 3
+    winner if @game.open_card?
   end
 
   def winner
-    puts "Yours Cards: #{@gamer.hand}  ||||| Diller cards #{@diller.hand}"
-    puts "Yours Scores: #{@gamer.score} ||||| Diller scores #{@diller.score}"
-    if @gamer.score > @diller.score && @gamer.score <= 21
-      @gamer.win_bank
+    puts "Yours Cards: #{@game.gamer_hand}  ||||| Diller cards #{@game.diller_hand}"
+    puts "Yours Scores: #{@game.gamer_scores} ||||| Diller scores #{@game.diller_scores}"
+    if @game.gamer_win?
       puts "You win. Congratulations\n________________________"
-    elsif @gamer.score < @diller.score || @gamer.score > 21
-      @diller.win_bank
+    elsif @game.diller_win?
       puts "You lose\n________________________"
-    else @gamer.score == @diller.score
-      puts "dead heat\n________________________"
+    else @game.dead_heat?
+         puts "dead heat\n________________________"
     end
     view_bank
-    @gamer.reset_hand
-    @diller.reset_hand
+    @game.reset
     continue_game?
   end
 
@@ -108,15 +91,15 @@ class Interface
   end
 
   def view_cards
-    puts "Yours Cards: #{@gamer.hand}  ||||| Diller cards ***"
+    puts "Yours Cards: #{@game.gamer_hand}  ||||| Diller cards ***"
   end
 
   def view_scores
-    puts "Yours Scores: #{@gamer.score} ||||| Diller scores ***"
+    puts "Yours Scores: #{@game.gamer_scores} ||||| Diller scores ***"
   end
 
   def view_bank
-    puts "Yours cashe #{@gamer.get_bank} |||| Diller cashe #{@diller.get_bank}"
+    puts "Yours cashe #{@game.gamer_bank} |||| Diller cashe #{@game.diller_bank}"
   end
 end
 
